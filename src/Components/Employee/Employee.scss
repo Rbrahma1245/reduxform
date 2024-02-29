@@ -12,7 +12,14 @@
 
 input {
   height: 30px;
+  width: 300px;
 }
 select {
   height: 30px;
+}
+
+.error{
+  color: red;
+  font-size: 12px;
+  margin-left: 8px;
 }

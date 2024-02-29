@@ -6,6 +6,7 @@ import DisplayUser from "./DisplayUser";
 import { isObjectEmpty } from "../../Utils/ObjectUtils";
 import { useNavigate } from "react-router-dom";
 import { ErrorMessage, Field, Form, Formik } from "formik";
+import * as Yup from "yup";
 
 const Employee = () => {
   let [empValue, setEmpValue] = useState({
@@ -23,78 +24,12 @@ const Employee = () => {
   const navigate = useNavigate();
 
   let countries = [
-    "Country",
     "India",
     "Australia",
     "Mexico",
     "Canada",
     "Spain",
   ];
-
-  function handleChange(e) {
-    let { name, value } = e.target;
-    setEmpValue({ ...empValue, [name]: value });
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-
-    let {
-      firstName,
-      middleName,
-      lastName,
-      email,
-      phoneNumber,
-      country,
-      address,
-    } = empValue;
-
-    if (
-      !firstName ||
-      !middleName ||
-      !lastName ||
-      !email ||
-      !phoneNumber ||
-      !country ||
-      !address
-    ) {
-      alert("Fill the required details");
-    } else {
-      dispatch(
-        addUserDetails({
-          firstName,
-          middleName,
-          lastName,
-          email,
-          phoneNumber,
-          country,
-          address,
-        })
-      );
-      setEmpValue({
-        firstName: "",
-        middleName: "",
-        lastName: "",
-        email: "",
-        phoneNumber: "",
-        country: "",
-        address: "",
-      });
-    }
-  }
-
-  function handleReset(e) {
-    e.preventDefault();
-    setEmpValue({
-      firstName: "",
-      middleName: "",
-      lastName: "",
-      email: "",
-      phoneNumber: "",
-      country: "",
-      address: "",
-    });
-  }
 
   useEffect(() => {
     if (isObjectEmpty(user)) {
@@ -103,105 +38,143 @@ const Employee = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
+
+
+
+  const validationSchema = Yup.object().shape({
+    firstName: Yup.string().required("First Name required").min(3, "First Name must be at least 3 characters"),
+    middleName: Yup.string().required("Middle Name required"),
+    lastName: Yup.string().required("Last Name required"),
+    email: Yup.string().email("Invalid Email").required("Email required"),
+    phoneNumber: Yup.string().matches(/^[0-9]{10}$/, 'Invalid phone number')
+      .required('Phone number is required'),
+    country: Yup.string().required("Country required"),
+    address: Yup.string().required('Address is required').min(5, 'Address is too short').max(100, 'Address is too long'),
+  });
+
+  let [initialValue, setInitialValue] = useState({
+    firstName: "",
+    middleName: "",
+    lastName: "",
+    email: "",
+    phoneNumber: "",
+    country: "", // Add country to your initial values
+    address: ""
+  })
+  // const initialValue = {
+  //   firstName: "",
+  //   middleName: "",
+  //   lastName: "",
+  //   email: "",
+  //   phoneNumber: "",
+  //   country: "", // Add country to your initial values
+  //   address: ""
+  // };
+
+
+  console.log(initialValue, "hhhhhhhhhhh");
+
+  useEffect(() => {
+    console.log(initialValue, "from use effect");
+  }, [initialValue])
+
   return (
     <div>
       <h4>User Name: {user.userName}</h4>
 
-      <form className="container">
-        <div>
-          <input
-            type="text"
-            name="firstName"
-            placeholder="Enter First Name"
-            value={empValue.firstName}
-            onChange={handleChange}
-          />
-          <input
-            type="text"
-            name="middleName"
-            placeholder="Enter Middle Name"
-            value={empValue.middleName}
-            onChange={handleChange}
-          />
-          <input
-            type="text"
-            name="lastName"
-            placeholder="Enter Last Name"
-            value={empValue.lastName}
-            onChange={handleChange}
-          />
-        </div>
+      <Formik
+        initialValues={initialValue}
+        validationSchema={validationSchema}
+        onSubmit={(values, { resetForm }) => {
+          // setEmpValue(values)
+          resetForm();
+          dispatch(addUserDetails(values))
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Enter your email"
-          value={empValue.email}
-          onChange={handleChange}
-        />
-
-        <input
-          name="phoneNumber"
-          type="number"
-          placeholder="Enter Phone Number"
-          onChange={handleChange}
-          value={empValue.phoneNumber}
-        />
-        <select name="country" onChange={handleChange} value={empValue.country}>
-          {countries.map((e, i) => {
-            return <option key={i}>{e}</option>;
-          })}
-        </select>
-
-        <textarea
-          placeholder="Enter Your address"
-          name="address"
-          onChange={handleChange}
-          value={empValue.address}
-        />
-
-        <div>
-          <button onClick={handleSubmit}>Submit</button>
-          <button onClick={handleReset}> Reset</button>
-        </div>
-      </form>
-
-      {/* <Formik
-        initialValues={{ firstName: "", password: "" }}
-        validate={(values) => {
-          const errors = {};
-          if (!values.email) {
-            errors.email = "Required";
-          } else if (
-            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-          ) {
-            errors.email = "Invalid email address";
-          }
-          return errors;
+          console.log("test.......");
         }}
-        onSubmit={(values, { setSubmitting }) => {
-          setTimeout(() => {
-            alert(JSON.stringify(values, null, 2));
-            setSubmitting(false);
-          }, 400);
-        }}
+
       >
-        <Form>
-          <Field
-            type="text"
-            name="firstName"
-            placeholder="Enter First Name"
-            value={empValue.firstName}
-            onChange={handleChange}
-          />
-          <ErrorMessage name="firstName" component="span" />
-          <Field type="password" name="password" />
-          <ErrorMessage name="password" component="div" />
-          <button type="submit">Submit</button>
-        </Form>
-      </Formik> */}
 
-      <DisplayUser setEmpValue={setEmpValue} />
+        {(formikProps) => (
+
+          <Form className="container">
+            <div style={{ display: "flex" }}>
+              <Field
+                type="text"
+                name="firstName"
+                placeholder="Enter First Name"
+              />
+              <ErrorMessage name="firstName" component="span" className="error" />
+            </div>
+            <div style={{ display: "flex" }}>
+              <Field
+                type="text"
+                name="middleName"
+                placeholder="Enter Middle Name"
+              />
+              <ErrorMessage name="middleName" component="span" className="error" />
+            </div>
+
+            <div style={{ display: "flex" }}>
+              <Field
+                type="text"
+                name="lastName"
+                placeholder="Enter Last Name"
+              />
+              <ErrorMessage name="lastName" component="span" className="error" />
+            </div>
+
+            <div style={{ display: "flex" }}>
+              <Field
+                type="email"
+                name="email"
+                placeholder="Enter your Email"
+              />
+              <ErrorMessage name="email" component="span" className="error" />
+            </div>
+            <div style={{ display: "flex" }}>
+              <Field
+                type="number"
+                name="phoneNumber"
+                placeholder="Enter your Phone number"
+              />
+              <ErrorMessage name="phoneNumber" component="span" className="error" />
+            </div>
+
+            <div style={{ display: "flex" }}>
+              <Field as="select" name="country" >
+                <option value="" label="Select an option" className="error" />
+                {countries.map((e, i) => {
+                  return <option key={i}>{e}</option>;
+                })}
+
+              </Field>
+              <ErrorMessage name="country" component="div" className="error" />
+            </div>
+
+            <div style={{ display: "flex" }}>
+              <Field
+                as="textarea"
+                name="address"
+                placeholder="Enter your Address"
+              />
+              <ErrorMessage name="address" component="span" className="error" />
+            </div>
+
+
+            <button type="submit">Submit</button>
+            <button type="submit" onClick={() => console.log(formikProps)}>RESET</button>
+
+            <DisplayUser formikProps={formikProps} setInitialValue={setInitialValue}/>
+
+
+
+          </Form>
+        )}
+      </Formik>
+
+
+
     </div>
   );
 };
