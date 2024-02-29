@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   user: {},
+  userDetails : [],
   userList: [],
 };
 const LoginReducer = createSlice({
@@ -11,16 +12,26 @@ const LoginReducer = createSlice({
   //ACTIONS
   reducers: {
     addUser: (state, action) => {
-      let { id, username, password } = action.payload;
+      let { id, userName, password } = action.payload;
 
-      state.user = { id, username, password };
-      state.userList.push({ id, username, password });
+      state.user = { id, userName, password };
+      state.userList.push({ id, userName, password });
     },
-    deleteUser: (state) => {
-      state.user = {};
+   
+    addUserDetails: (state, action)=>{
+      let {firstName,middleName, lastName, email, phoneNumber, country, address }= action.payload
+      state.userDetails.push({firstName,middleName, lastName, email, phoneNumber, country, address })
+    },
+    deleteUserDetails: (state, action) => {
+      let {firstName,middleName, lastName, email, phoneNumber, country, address }= action.payload
+      console.log(phoneNumber);
+
+      let updatedList = state.userDetails.filter((e,i)=> e.phoneNumber !== phoneNumber)
+      state.userDetails = updatedList
+ 
     },
   },
 });
 
-export const { addUser, deleteUser } = LoginReducer.actions;
+export const { addUser, deleteUser,addUserDetails,deleteUserDetails } = LoginReducer.actions;
 export default LoginReducer.reducer;

@@ -11,13 +11,15 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.1",
+    "add": "^2.0.6",
+    "formik": "^2.4.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^9.1.0",
     "react-router-dom": "^6.22.2",
-    "react-table": "^7.8.0",
     "react-table-v6": "^6.8.6",
-    "sass": "^1.71.1"
+    "sass": "^1.71.1",
+    "yarn": "^1.22.21"
   },
   "devDependencies": {
     "@types/react": "^18.2.56",

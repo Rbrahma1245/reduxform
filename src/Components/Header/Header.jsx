@@ -10,7 +10,7 @@ function Header() {
       <div className="header-left">LOGO</div>
 
       <div className="header-right">
-        {isObjectEmpty(user) ? "Login" : user.username}
+        {isObjectEmpty(user) ? "Login" : user.userName}
       </div>
     </div>
   );

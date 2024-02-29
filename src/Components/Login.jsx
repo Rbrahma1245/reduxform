@@ -1,17 +1,16 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { addUser, deleteUser } from "./Reducer/LoginReducer";
 import "./Login.scss";
-import { isObjectEmpty } from "../Utils/ObjectUtils";
+import { useDispatch } from "react-redux";
+import { addUser } from "./Reducer/LoginReducer";
+import { NavLink } from "react-router-dom";
 
 const Login = () => {
   let [formValue, setFormValue] = useState({
-    username: "",
+    userName: "",
     password: "",
   });
 
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.login.user);
 
   function handleChange(e) {
     let { name, value } = e.target;
@@ -19,22 +18,22 @@ const Login = () => {
   }
 
   function handleSubmit(e) {
-    let { username, password } = formValue;
-    e.preventDefault();
+    let { userName, password } = formValue;
 
-    if (username == "" || password == "") {
+    if (userName == "" || password == "") {
       alert("Please fill the form");
+      e.preventDefault();
     } else {
       let id = new Date().getMilliseconds();
-      dispatch(addUser({ id: id, username, password }));
-      setFormValue({ username: "", password: "" });
+      dispatch(addUser({ id: id, userName, password }));
+      setFormValue({ userName: "", password: "" });
     }
   }
 
-  function handleLogout(e) {
-    dispatch(deleteUser());
-    e.preventDefault();
-  }
+  //   function handleLogout(e) {
+  //     dispatch(deleteUser());
+  //     e.preventDefault();
+  //   }
 
   return (
     <div className="login-container">
@@ -43,8 +42,8 @@ const Login = () => {
         <input
           style={{ height: 50 }}
           type="text"
-          name="username"
-          value={formValue.username}
+          name="userName"
+          value={formValue.userName}
           placeholder="Enter User Name"
           onChange={handleChange}
         />
@@ -61,11 +60,9 @@ const Login = () => {
         {/* <span>ERROR FIELD</span> */}
         <br />
 
-        {isObjectEmpty(user) ? (
-          <button onClick={handleSubmit}>LOGIN</button>
-        ) : (
-          <button onClick={handleLogout}>LOGOUT</button>
-        )}
+        <NavLink to={`/employee`} onClick={handleSubmit}>
+          LOGIN
+        </NavLink>
       </form>
     </div>
   );
