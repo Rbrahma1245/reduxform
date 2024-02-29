@@ -1,0 +1,9 @@
+@import "../styles/variables";
+@import "../styles/extends";
+@import "../styles/mixin";
+
+.login-container {
+  @extend %flex-center;
+  flex-direction: column;
+
+}
