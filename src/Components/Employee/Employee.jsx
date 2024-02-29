@@ -98,74 +98,101 @@ const Employee = () => {
         {(formikProps) => (
 
           <Form className="container">
-            <div style={{ display: "flex" }}>
-              <Field
-                type="text"
-                name="firstName"
-                placeholder="Enter First Name"
-              />
-              <ErrorMessage name="firstName" component="span" className="error" />
-            </div>
-            <div style={{ display: "flex" }}>
-              <Field
-                type="text"
-                name="middleName"
-                placeholder="Enter Middle Name"
-              />
-              <ErrorMessage name="middleName" component="span" className="error" />
+            <div className="input-container" >
+              <label >First Name </label>
+              <div>
+                <Field
+                  type="text"
+                  name="firstName"
+                  placeholder="Enter First Name"
+                />
+                <ErrorMessage name="firstName" component="span" className="error" />
+              </div>
             </div>
 
-            <div style={{ display: "flex" }}>
-              <Field
-                type="text"
-                name="lastName"
-                placeholder="Enter Last Name"
-              />
-              <ErrorMessage name="lastName" component="span" className="error" />
+            <div className="input-container" >
+              <label >Middle Name</label>
+              <div>
+                <Field
+                  type="text"
+                  name="middleName"
+                  placeholder="Enter Middle Name"
+                />
+                <ErrorMessage name="middleName" component="span" className="error" />
+              </div>
             </div>
 
-            <div style={{ display: "flex" }}>
-              <Field
-                type="email"
-                name="email"
-                placeholder="Enter your Email"
-              />
-              <ErrorMessage name="email" component="span" className="error" />
-            </div>
-            <div style={{ display: "flex" }}>
-              <Field
-                type="number"
-                name="phoneNumber"
-                placeholder="Enter your Phone number"
-              />
-              <ErrorMessage name="phoneNumber" component="span" className="error" />
+            <div className="input-container" >
+              <label >Last Name</label>
+
+              <div>
+                <Field
+                  type="text"
+                  name="lastName"
+                  placeholder="Enter Last Name"
+                />
+                <ErrorMessage name="lastName" component="span" className="error" />
+              </div>
             </div>
 
-            <div style={{ display: "flex" }}>
-              <Field as="select" name="country" >
-                <option value="" label="Select an option" className="error" />
-                {countries.map((e, i) => {
-                  return <option key={i}>{e}</option>;
-                })}
+            <div className="input-container" >
+              <label >Email : </label>
+              <div>
+                <Field
+                  type="email"
+                  name="email"
+                  placeholder="Enter your Email"
+                />
+                <ErrorMessage name="email" component="span" className="error" />
+              </div>
+            </div>
+            <div className="input-container" >
+              <label >Phone Number</label>
 
-              </Field>
-              <ErrorMessage name="country" component="div" className="error" />
+              <div>
+                <Field
+                  type="number"
+                  name="phoneNumber"
+                  placeholder="Enter your Phone number"
+                />
+                <ErrorMessage name="phoneNumber" component="span" className="error" />
+              </div>
             </div>
 
-            <div style={{ display: "flex" }}>
-              <Field
-                as="textarea"
-                name="address"
-                placeholder="Enter your Address"
-              />
-              <ErrorMessage name="address" component="span" className="error" />
+            <div className="input-container" >
+              <label >Country</label>
+              <div style={{ display: "flex" }}>
+                <Field as="select" name="country" >
+                  <option value="" label="Select an option" className="error" />
+                  {countries.map((e, i) => {
+                    return <option key={i}>{e}</option>;
+                  })}
+
+                </Field>
+                <ErrorMessage name="country" component="div" className="error" />
+              </div>
+
+
+            </div>
+
+            <div className="input-container" >
+              <label >Address</label>
+              <div>
+                <Field
+                  as="textarea"
+                  name="address"
+                  placeholder="Enter your Address"
+                />
+                <ErrorMessage name="address" component="span" className="error" />
+              </div>
+
             </div>
 
 
             <button type="submit">Submit</button>
             <button type="submit" onClick={() => console.log(formikProps)}>RESET</button>
 
-            <DisplayUser formikProps={formikProps} setInitialValue={setInitialValue}/>
+            <DisplayUser formikProps={formikProps} setInitialValue={setInitialValue} />
 
 
 

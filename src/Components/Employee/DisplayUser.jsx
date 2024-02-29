@@ -4,7 +4,7 @@ import "react-table-v6/react-table.css";
 import { isObjectEmpty } from "../../Utils/ObjectUtils";
 import { deleteUserDetails } from "../Reducer/LoginReducer";
 
-const DisplayUser = ({  formikProps, setInitialValue }) => {
+const DisplayUser = ({ formikProps, setInitialValue }) => {
   const userDetails = useSelector((state) => state.login.userDetails);
   const dispatch = useDispatch();
   const columns = [
@@ -46,20 +46,20 @@ const DisplayUser = ({  formikProps, setInitialValue }) => {
 
   const handleRowClick = (row) => {
 
-let {firstName, middleName, lastName, email, phoneNumber, country, address} = row.original
+    let { firstName, middleName, lastName, email, phoneNumber, country, address } = row.original
 
-console.log(row.original);
+    console.log(row.original);
 
-setInitialValue({firstName, middleName, lastName, email, phoneNumber, country, address})
+    setInitialValue({ firstName, middleName, lastName, email, phoneNumber, country, address })
 
-// console.log(initialValue);
-// formikProps.initialValues.firstName = firstName
-// formikProps.initialValues.middleName = middleName
-// formikProps.initialValues.lastName = lastName
-// formikProps.initialValues.email = email
-// formikProps.initialValues.phoneNumber = phoneNumber
-// formikProps.initialValues.country = country
-// formikProps.initialValues.address = address
+    // console.log(initialValue);
+    // formikProps.initialValues.firstName = firstName
+    // formikProps.initialValues.middleName = middleName
+    // formikProps.initialValues.lastName = lastName
+    // formikProps.initialValues.email = email
+    // formikProps.initialValues.phoneNumber = phoneNumber
+    // formikProps.initialValues.country = country
+    // formikProps.initialValues.address = address
 
 
 
@@ -80,7 +80,7 @@ setInitialValue({firstName, middleName, lastName, email, phoneNumber, country, a
   const handleDeleteClick = (row) => {
     dispatch(deleteUserDetails(row._original));
 
-   
+
 
   };
 
